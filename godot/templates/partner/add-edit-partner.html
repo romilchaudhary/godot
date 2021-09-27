@@ -1,0 +1,28 @@
+{% extends 'partial/base.html' %}
+{% block content %}
+<div class="row page-titles">
+    <div class="col-md-12 col-12 align-self-center">
+      <h3 class="text-themecolor m-b-0 m-t-0">{{ add }}</h3>
+    </div>
+</div>
+{% if messages %}
+<ul class="messages">
+   {% for message in messages %}
+   <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+   {% endfor %}
+</ul>
+{% endif %}
+<div class="row">
+   <div class="col-12">
+      <form class="form-horizontal" method="Post" enctype="multipart/form-data" novalidate>
+         {% csrf_token %}
+         {{ form.as_p  }}
+          {% if add == 'Add Partner'%}
+            <button type="submit" class="save btn btn-info btn-default">Add New Partner</button>
+          {% else %}
+            <button type="submit" class="save btn btn-info btn-default">Update Partner Details</button>
+          {% endif %}
+      </form>
+    </div>
+</div>
+{% endblock %}

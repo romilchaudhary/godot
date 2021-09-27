@@ -1,0 +1,43 @@
+{% extends "partial/base.html" %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <a class="btn btn-primary float-right" href="{% url 'partner:add_new_partner' %}">Add New Partner</a>
+        </div>
+    </div>
+{% for partner in partners_list %}
+    <div class="container" style="border: 2px solid black; border-radius:12px;">
+        <div class="row">
+            <div class="col-sm">
+                Partner Name:
+                <p>{{ partner.partner_name }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                Partner GST(optional):
+                <p>{{ partner.partner_gst }}</p>
+            </div>
+            <div class="col-sm">
+               Partner Website:
+               <p>{{ partner.agency_website }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                Partner Phone:
+                <p>{{ partner.partner_phone }}</p>
+            </div>
+            <div class="col-sm">
+               Partner Email:
+               <p>{{ partner.partner_email }}</p>
+            </div>
+        </div>
+        <a class="btn btn-primary " href="{% url 'partner:members_list' partner.id  %}">View Members</a>
+        <a class="btn btn-primary float-right" href="{% url 'partner:edit_partner' partner.id %}">Edit Partner Details</a>
+    </div><br/>
+{%  endfor %}
+</div>
+
+{% endblock%}

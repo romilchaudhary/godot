@@ -1,0 +1,47 @@
+{% extends 'partial/base.html' %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+           <div class="col-md-12">
+               <p>Partner Name:</p>
+               {{ partner_name }}
+           </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12" style="border: 2px solid black; border-radius:12px;">
+                <form class="form-horizontal" method="Post" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+                    <p>Partner Name:
+                        {{ form.partner  }}
+                    </p>
+                    <p>Member Name:
+                        {{ form.member_name  }}
+                    </p>
+                    <p>Member Email:
+                        {{ form.member_email  }}
+                    </p>
+                    <p>Member Phone:
+                        {{ form.member_phone  }}
+                    </p>
+                    <button type="submit" class="save btn btn-info btn-default">Add New Member</button>
+                </form>
+            </div>
+        </div><br/>
+        {% for member in members_list %}
+                <div class="row">
+                    <div class="col-md-12" style="border: 2px solid black; border-radius:12px;">
+                        <p>Member Name:
+                            {{ member.member_name }}
+                        </p>
+                        <p>Member Email:
+                            {{ member.member_email }}
+                        </p>
+                        <p>Member Phone:
+                            {{ member.member_phone }}
+                        </p>
+                    </div>
+                </div><br/>
+           {% endfor %}
+    </div>
+{% endblock %}
