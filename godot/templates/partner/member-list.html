@@ -29,21 +29,29 @@
             </div>
         </div><br/>
         <div class="members-list">
-        {% for member in members_list %}
-                <div class="row">
-                    <div class="col-md-12" style="border: 2px solid black; border-radius:12px;">
-                        <p>Member Name:
-                            {{ member.member_name }}
-                        </p>
-                        <p>Member Email:
-                            {{ member.member_email }}
-                        </p>
-                        <p>Member Phone:
-                            {{ member.member_phone }}
-                        </p>
-                    </div>
-                </div><br/>
-           {% endfor %}
+        {% if members_list %}
+            {% for member in members_list %}
+                    <div class="row">
+                        <div class="col-md-12" style="border: 2px solid black; border-radius:12px;">
+                            <p>Member Name:
+                                {{ member.member_name }}
+                            </p>
+                            <p>Member Email:
+                                {{ member.member_email }}
+                            </p>
+                            <p>Member Phone:
+                                {{ member.member_phone }}
+                            </p>
+                        </div>
+                    </div><br/>
+               {% endfor %}
+            {% else %}
+                <div class="row" id="no-member">
+                        <div class="col-md-12" style="border: 2px solid black; border-radius:12px;">
+                            <p>No Member Created.</p>
+                        </div>
+                </div>
+            {% endif %}
             </div>
     </div>
 <script language="JavaScript">
@@ -62,6 +70,7 @@
         },
         success:function(json){
             document.getElementById("member-form").reset();
+            document.getElementById("no-member").remove();
             $(".members-list").prepend('<div class="row">'+
                     '<div class="col-md-12" style="border: 2px solid black; border-radius:12px;">'+
                         '<p>Member Name:'+

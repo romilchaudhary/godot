@@ -13,7 +13,7 @@ from rest_framework.decorators import api_view
 # Create your views here.
 @login_required
 def index(request):
-    partners = Partner.partner_obj.all()
+    partners = Partner.partner_obj.all().order_by('-id')
     context = {'partners_list': partners}
     return render(request, 'partner/index.html', context)
 
