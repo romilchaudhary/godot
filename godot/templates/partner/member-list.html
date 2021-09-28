@@ -3,16 +3,16 @@
     <div class="container">
         <div class="row">
            <div class="col-md-12">
-               <p>Partner Name:</p>
+               Partner Name:<br/>
                {{ partner_name }}
            </div>
         </div>
 
         <div class="row">
             <div class="col-md-12" style="border: 2px solid black; border-radius:12px;">
-                <form class="form-horizontal" method="Post" enctype="multipart/form-data" novalidate>
+                <form id="member-form" class="form-horizontal" method="POST">
                     {% csrf_token %}
-                    <p>Partner Name:
+                    <p style="display:none;">Partner Name:
                         {{ form.partner  }}
                     </p>
                     <p>Member Name:
@@ -28,6 +28,7 @@
                 </form>
             </div>
         </div><br/>
+        <div class="members-list">
         {% for member in members_list %}
                 <div class="row">
                     <div class="col-md-12" style="border: 2px solid black; border-radius:12px;">
@@ -43,5 +44,52 @@
                     </div>
                 </div><br/>
            {% endfor %}
+            </div>
     </div>
+<script language="JavaScript">
+    $(document).on('submit', '#member-form',function(e){
+    e.preventDefault();
+    partner_id = {{ partner_id }}
+    $.ajax({
+        type:'POST',
+        url:'http://127.0.0.1:8000/partner/member_ajax/' + partner_id,
+        data:{
+            member_name:$('#id_member_name').val(),
+            member_email:$('#id_member_email').val(),
+            member_phone:$('#id_member_phone').val(),
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            action: 'post'
+        },
+        success:function(json){
+            document.getElementById("member-form").reset();
+            $(".members-list").prepend('<div class="row">'+
+                    '<div class="col-md-12" style="border: 2px solid black; border-radius:12px;">'+
+                        '<p>Member Name:'+
+                            json.member_name+
+                        '</p>'+
+                        '<p>Member Email:'+
+                            json.member_email+
+                        '</p>'+
+                        '<p>Member Phone:'+
+                            json.member_phone+
+                        '</p>'+
+                    '</div>'+
+                '</div><br/>'
+            );
+            $(".members-list").prepend('<div class="col-md-12">'+
+                '<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">' +
+                    '<div class="col p-4 d-flex flex-column position-static">' +
+                        '<h3 class="mb-0">' + json.msg + '</h3>' +
+                    '</div>' +
+                '</div>' +
+            '</div>'
+            );
+        },
+        error : function(xhr,errmsg,err) {
+        console.log(xhr.status + ": " + xhr.responseText);
+    }
+    });
+});
+</script>
+
 {% endblock %}
